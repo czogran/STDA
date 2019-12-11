@@ -1,92 +1,78 @@
 
 classdef CableClass
     properties
-        % Ÿród³o http://www.przemyslawtabaka.info/materialy/EL_EN_CW/param_linii.pdf
-        
+        %s – przekrój przewodu [mm2]
+        s = 2.5;
+        %dlugosc kabla [km]
+        dlugosc=0.08;
         % r- promieñ przewodu [mm]
-        r=1;
-        
+        r
         % f-czestotliwosc
-        f =power(10,6);
-        
+        f
         % w – pulsacja pr¹du [rd/s];
-        w%=2*pi*f;
-       
+        w %=2*pi*f;
         % bsr- sredni odstêp pomiedzy przewodami [mm]
-        bsr%=4*r;
-        
-        %  konduktywnoœæ (przewodnoœæ w³aœciwa) przewodu [m/?mm2]
-       
+        bsr;
         % miedŸ miêkka: ? = 56 m/?mm2
         y;
-       
-        %  s – przekrój przewodu
-        s
-        %  Rezystancja kilometryczna Rk [?/km]
+        
+        R %rezystancja
+        C %pojemnoœæ
+        L %induktancja
+        G %konduktywnoœæ (przewodnoœæ w³aœciwa) przewodu [m/?mm2]
+        
+        %Rezystancja kilometryczna Rk [?/km]
         Rk
-
-        %dlugosc- jak d³ugi kabel 
-        dlugosc=0.1;
-        %rezystancja
-        R
-        %pojemnoœæ
-        C
-        %induktancja
-        L
-
         % Lk – indukcyjnoœæ jednostkowa (kilometryczna) linii [H/km]; 
         Lk
-
         % reaktancja indukcyjna Xk [?/km] 
-         Xk
-         
+        Xk
         % kilometryczna pojemnoœæ robocza linii [F/km];  
-         Ck
-         
+        Ck
         %  Susceptancja Bk [S/km]
         Bk
-        
+        % Konduktancja Gk [S/km]
+        Gk
         % lambda- sta³a propagacji
         lambda
-        
         %czesc rzeczywista z lambdy         
         damping
-        
+        %t³umienie w dB
         decDamping
     end
    methods
-       function obj = CableClass(f,r,bsr);
-           obj.y=56;
-           obj.dlugosc=0.1;
+       function obj = CableClass(f, gk);
            
-           obj.bsr=bsr;
-           obj.r=r;
+           obj.r = sqrt(obj.s/pi); %liczymy promieñ z za³o¿onego przekroju
+           obj.bsr = 3*obj.r; %odleg³oœæ miêdzy ¿y³ami = 2r + izolacja
+           obj.y=56;
+           %obj.dlugosc=
+           
+           %przypisanie wartoœci z "konstruktora"
            obj.f=f;
+           obj.Gk = gk;
            
            obj.w=2*pi*obj.f;
-           obj.s=power(obj.r,2)*pi
-           obj. Rk=1000/obj.y/obj.s
-
            
-           obj.R=obj.Rk*obj.dlugosc;
+           %parametry jednostkowe
+           obj.Rk=1000/obj.y/obj.s
            obj.Lk=2*log(obj.bsr/obj.r+0.5)*10^-4;
-
-           % reaktancja indukcyjna Xk [?/km] 
-           obj.Xk=obj.w*obj.Lk;
-
+           obj.Xk=obj.w*obj.Lk; % reaktancja indukcyjna Xk [?/km] 
            obj.Ck=0.02415/log(obj.bsr/obj.r)*10^-6;
-     
            obj.Bk = obj.w*obj.Ck;
+           %obj.Gk = 0.001;
 
-           obj.C=obj.Ck*obj.dlugosc
-           obj.L=obj.Lk*obj.dlugosc
-%            obj.lambda=sqrt((obj.R+j*obj.w*obj.Lk)*(1/obj.R+j*obj.w*obj.Ck))
-           % konduktancja=0 https://puss.pila.pl/uploads/dydaktyka/ip-lele-model-linii-elektr.pdf
+           %poprawka na d³ugoœæ linii
+           obj.C=obj.Ck*obj.dlugosc;
+           obj.L=obj.Lk*obj.dlugosc;
+           obj.R=obj.Rk*obj.dlugosc;
+           obj.G=obj.Gk*obj.dlugosc;
            
-           obj.lambda=sqrt((obj.R+j*obj.w*obj.L)*(0.001+j*obj.w*obj.C))
-           obj.damping=real(obj.lambda)
-           % obj.decDamping=10;
-            obj.decDamping= obj.damping*8.685
+           %konduktancja=0 https://puss.pila.pl/uploads/dydaktyka/ip-lele-model-linii-elektr.pdf
+           
+           obj.lambda=sqrt((obj.R+j*obj.w*obj.L)*(obj.G+j*obj.w*obj.C));
+           obj.damping=real(obj.lambda);
+           obj.decDamping= obj.damping*8.685;
        end     
    end
 end
