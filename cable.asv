@@ -4,14 +4,14 @@ close all
 
 data=1:53;
 % f-czestotliwosc
-f=power(10,6);
+f=;
 % w – pulsacja pr¹du [rd/s];
 w=2*pi*f;
 % r- promieñ przewodu [mm]
 r=1;
 
 % bsr- sredni odstêp pomiedzy przewodami [mm]
-bsr=5*r;
+bsr=5;
 
 %  Rezystancja kilometryczna Rk [?/km]
 %  konduktywnoœæ (przewodnoœæ w³aœciwa) przewodu [m/?mm2]
@@ -40,5 +40,3 @@ Bk = w*Ck;
 % lambda- sta³a propagacji
 
 lambda=sqrt((R+j*w*Lk)*(1/R+j*w*Ck))
-tlumienie=real(lambda)
-
