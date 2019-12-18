@@ -20,31 +20,27 @@ classdef CableClass
         Rk
         % Lk – indukcyjnoœæ jednostkowa (kilometryczna) linii [H/km]; 
         Lk
-        % reaktancja indukcyjna Xk [?/km] 
-        Xk
         % kilometryczna pojemnoœæ robocza linii [F/km];  
         Ck
-        %  Susceptancja Bk [S/km]
-        Bk
         % Konduktancja Gk [S/km]
         Gk
         % lambda- sta³a propagacji
         lambda
-        %czesc rzeczywista z lambdy         
+        %czesc rzeczywista z lambdy - [db/km]       
         damping
-        %t³umienie w dB
+        %t³umienie na koñcu linii w dB
         endDamping
     end
    methods
-       function obj = CableClass(f, gk, l);
+       function obj = CableClass(f, gk, L);
            
            obj.r = sqrt(obj.s/pi); %liczymy promieñ z za³o¿onego przekroju
            obj.bsr = 3*obj.r; %odleg³oœæ miêdzy ¿y³ami = 2r + izolacja
            obj.y=56;
-           obj.dlugosc=l;
            
            %przypisanie wartoœci z "konstruktora"
            obj.f=f;
+           obj.dlugosc=L;
            obj.Gk = gk;
            
            obj.w=2*pi*obj.f;
@@ -52,9 +48,7 @@ classdef CableClass
            %parametry jednostkowe
            obj.Rk=1000/(obj.y*obj.s);
            obj.Lk=2*log(obj.bsr/obj.r+0.5)*10^-4;
-           obj.Xk=obj.w*obj.Lk; % reaktancja indukcyjna Xk [?/km] 
-           obj.Ck=0.02415/log(obj.bsr/obj.r)*10^-6;
-           obj.Bk = obj.w*obj.Ck;
+           obj.Ck=10^-6*0.02415/log10(obj.bsr/obj.r);
            
            %konduktancja=0 https://puss.pila.pl/uploads/dydaktyka/ip-lele-model-linii-elektr.pdf
            

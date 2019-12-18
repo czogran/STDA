@@ -12,7 +12,7 @@ param=zeros(1,length(f)); %t³umienie jednostkowe
 param2=zeros(1,length(f)); %t³umienie na koñcu linii
 for i=1:length(f)
     
-    obj=CableClass(f(i), 2.67, 0.008); %tu sobie manipulujemy Gk i d³. linii (f, Gk, L)
+    obj=CableClass(f(i), 2.78, 0.108); %tu sobie manipulujemy Gk i d³. linii (f, Gk, L)
     param(i)=obj.damping;
     param2(i)=obj.endDamping;
     
