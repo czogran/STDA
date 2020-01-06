@@ -32,8 +32,8 @@ classdef CableClass
         endDamping
     end
    methods
-       function obj = CableClass(f, gk, L);
-           
+       function [obj] = CableClass(f, gk, L) 
+          
            obj.r = sqrt(obj.s/pi); %liczymy promieñ z za³o¿onego przekroju
            obj.bsr = 3*obj.r; %odleg³oœæ miêdzy ¿y³ami = 2r + izolacja
            obj.y=56;
@@ -43,7 +43,9 @@ classdef CableClass
            obj.length=L;
 %            https://sound.eti.pg.gda.pl/~landos/Laboratorium_SA/_LabSAcw_06.pdf
 %            6.35
-           obj.Gk = 2.9e-13*obj.f*1000;
+%            obj.Gk = 2.9e-13*obj.f*1000;
+
+           obj.Gk =gk;
            
            obj.w=2*pi*obj.f;
            
@@ -57,7 +59,7 @@ classdef CableClass
            obj.lambda=sqrt((obj.Rk+j*obj.w*obj.Lk)*(obj.Gk+j*obj.w*obj.Ck));
            obj.damping=real(obj.lambda)*8.685;
            obj.endDamping= obj.damping * obj.length
-       end     
+       end;     
    end
 end
 
