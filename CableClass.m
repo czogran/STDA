@@ -1,10 +1,10 @@
-
+% source: http://www.przemyslawtabaka.info/materialy/EL_EN_CW/param_linii.pdf
 classdef CableClass
     properties
         %s – przekrój przewodu [mm2]
         s = 2.5;
-        %dlugosc kabla [km]
-        dlugosc;
+        %d³ugoœæ kabla [km]
+        length;
         % r- promieñ przewodu [mm]
         r
         % f-czestotliwosc
@@ -40,8 +40,10 @@ classdef CableClass
            
            %przypisanie wartoœci z "konstruktora"
            obj.f=f;
-           obj.dlugosc=L;
-           obj.Gk = gk;
+           obj.length=L;
+%            https://sound.eti.pg.gda.pl/~landos/Laboratorium_SA/_LabSAcw_06.pdf
+%            6.35
+           obj.Gk = 2.9e-13*obj.f*1000;
            
            obj.w=2*pi*obj.f;
            
@@ -54,7 +56,7 @@ classdef CableClass
            
            obj.lambda=sqrt((obj.Rk+j*obj.w*obj.Lk)*(obj.Gk+j*obj.w*obj.Ck));
            obj.damping=real(obj.lambda)*8.685;
-           obj.endDamping= obj.damping * obj.dlugosc;
+           obj.endDamping= obj.damping * obj.length
        end     
    end
 end
