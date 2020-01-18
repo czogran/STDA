@@ -1,13 +1,14 @@
 % DATA FOR SIMULINK trasnmitFullSim
 
-EbN0=100 %35; the bigger the better
-SNR = 12 %SNR in dB. Using instead of Eb/N0
+SNR = 12 %SNR in dB. Used in the noise generator
 
-freqOffset=1000;
+freqOffset=1000; % ???
+
 Nbps=6; %N bits per symbol
 
-symbolsMulti=5500;
+symbolsMulti=5500; % ???
 phaseNoise=-1000;%-76; the smaller the better
+
 % amount of errors after which transsmison stops
 tgtMaxErr=1000000;
 
