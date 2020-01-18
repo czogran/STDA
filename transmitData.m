@@ -4,14 +4,14 @@ SNR = 23 %SNR in dB. Used in the noise generator
 
 freqOffset=1000; % ???
 
-Nbps=6; %N bits per symbol
+Nbps=4; %N bits per symbol
 Ts = 1e-8 %"Sample time"
 
 symbolsMulti=5500; % ???
 phaseNoise=-1000;%-76; the smaller the better
 
 % amount of errors after which transsmison stops
-tgtMaxErr=1000000;
+tgtMaxErr=1000;
 
 %DATA FOR RLCG TRANSMISSION LINE
 
