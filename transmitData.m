@@ -1,10 +1,11 @@
 % DATA FOR SIMULINK trasnmitFullSim
 
-SNR = 12 %SNR in dB. Used in the noise generator
+SNR = 23 %SNR in dB. Used in the noise generator
 
 freqOffset=1000; % ???
 
 Nbps=6; %N bits per symbol
+Ts = 1e-8 %"Sample time"
 
 symbolsMulti=5500; % ???
 phaseNoise=-1000;%-76; the smaller the better
@@ -13,6 +14,7 @@ phaseNoise=-1000;%-76; the smaller the better
 tgtMaxErr=1000000;
 
 %DATA FOR RLCG TRANSMISSION LINE
+
 % Resistance per length (ohms/m):
 Rpr=45e-3;
 % Inductance per length (H/m):
@@ -24,4 +26,4 @@ Conpr=1.2e-3
 % Frequency (Hz):
 freq=8e6;
 % Transmission line length (m):
-length=0.115;
+length=11.5;
