@@ -2,7 +2,7 @@ close all;
 clear all;
 % C - przep³ywnoœæ kana³u w bit/s
 
-B = 4E6; %pasmo w Hz
+B = 8E6; %pasmo w Hz
 
 snr = (-10):1:40;  %zakres zmiennoœci t³umienia
 snr_lin = 10.^(snr./10);
@@ -22,7 +22,7 @@ plot(snr, C*zysk8);
 plot(snr, C*zysk16);
 plot(snr, C*zysk64);
 
-title('Przep³ywnoœæ kana³u o paœmie 4 MHz');
+title('Przep³ywnoœæ kana³u o paœmie 8 MHz');
 ylabel("Przep³ywnoœæ [bit/s]");
 xlabel("SNR [dB]");
 yline(1E8, '--r'); %100 Mb/s
