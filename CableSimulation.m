@@ -1,43 +1,57 @@
-clear all
-close all
-clc
+clear all;
+close all;
 
-f1 = 50*1000; %pocz¹tek charakterystyki [Hz]
-f2 = 5000*1000; %koniec [Hz]
-fd = 10*1000 %odstêpy [Hz]
+ f1 = 50*1000; %poczï¿½tek charakterystyki [Hz]
+ f2 = 9E6; %koniec [Hz]
+ fd = 10*1000; %odstï¿½py [Hz]
  
-f=f1:fd:f2; %macierz czêstotliwoœci
+f=f1:fd:f2; %macierz czï¿½stotliwoï¿½ci
 
-param=zeros(1,length(f)); %t³umienie jednostkowe
-param2=zeros(1,length(f)); %t³umienie na koñcu linii
-display("siema")
-for i=1:length(f)    
-    obj=CableClass(f(i),9*10e-3, 0.1); %tu sobie manipulujemy Gk i d³. linii (f, Gk, L)
+L = 0.0115; %dï¿½ugoï¿½ï¿½ linii
+Rk =45; %ohm/km linii
+
+param=zeros(1,length(f)); %tï¿½umienie jednostkowe
+param2=zeros(1,length(f)); %tï¿½umienie na koï¿½cu linii
+for i=1:length(f)
+    
+    obj=CableClass(f(i), 1.2, L, Rk); %tu sobie manipulujemy Gk i dï¿½. linii (f, Gk, L, Rk)
     param(i)=obj.damping;
     param2(i)=obj.endDamping;
     
 end
 
-figure
-plot(f,param)
-xlim([f1-fd/2, f2+fd/2]);
-ylabel("T³umienie [dB/km]");
-xlabel("Czêstotliwoœæ [Hz]");
-%yline(3, '--r'); 
-title("T³umienie jednostkowe");
-hold off
+%tï¿½umienie wg. ï¿½rï¿½deï¿½
+tmp = 1:length(f);
+for i = tmp
+    damping(i) = att(f(i)).*L;
+    damping_km(i) = att(f(i));
+end
+
+% plot(f,param)
+% hold on;
+% %tï¿½umienie wg. ï¿½rï¿½deï¿½
+% plot(f, damping_km);
+% xlim([f1-fd/2, f2+fd/2]);
+% ylabel("Tï¿½umienie [dB/km]");
+% xlabel("Czï¿½stotliwoï¿½ï¿½ [Hz]");
+% %yline(3, '--r'); 
+% title("Tï¿½umienie jednostkowe");
+% legend('Tï¿½umienie wg. teorii linii dï¿½ugiej','Tï¿½umienie wg. ï¿½rï¿½deï¿½');
+
 
 figure(2)
-plot(f,param2)
-hold on
-%title('T³umienie na koñcu linii');
-title(max(param2)-min(param2)); %zakres zmiennoœci t³umienia
-xlim([f1, f2]);
-ylabel("T³umienie [dB]");
-xlabel("Czêstotliwoœæ [Hz]");
-% yline(3, '--r');
-hold on
-xline(50, '--g');
-hold off
+plot(f,param2) %tï¿½umienie wg. linii dï¿½ugiej
+hold on;
+%tï¿½umienie wg. ï¿½rï¿½deï¿½
+plot(f, damping);
 
+title('Tï¿½umienie na koï¿½cu linii o dï¿½ugoï¿½ci 11.5m');
+%title(max(param2)-min(param2)); %zakres zmiennoï¿½ci tï¿½umienia
+xlim([f1-fd/2, f2+fd/2]);
+ylabel("Tï¿½umienie [dB]");
+xlabel("Czï¿½stotliwoï¿½ï¿½ [Hz]");
+yline(damping(1)+3, '--r');
+xline(8E6, '--g');
+legend('Tï¿½umienie wg. teorii linii dï¿½ugiej', 'Tï¿½umienie wg. ï¿½rï¿½deï¿½', 'Spadek 3dB', '8 MHz');
+%legend('Tï¿½umienie wg. ï¿½rï¿½deï¿½', 'Spadek 3dB');
 

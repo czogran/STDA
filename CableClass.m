@@ -1,44 +1,49 @@
 % source: http://www.przemyslawtabaka.info/materialy/EL_EN_CW/param_linii.pdf
 classdef CableClass
     properties
-        %s – przekrój przewodu [mm2]
+        %s ï¿½ przekrï¿½j przewodu [mm2]
         s = 2.5;
-        %d³ugoœæ kabla [km]
+        %dï¿½ugoï¿½ï¿½ kabla [km]
         length;
-        % r- promieñ przewodu [mm]
+        % r- promieï¿½ przewodu [mm]
         r
         % f-czestotliwosc
         f
-        % w – pulsacja pr¹du [rd/s];
+        % w ï¿½ pulsacja prï¿½du [rd/s];
         w %=2*pi*f;
-        % bsr- sredni odstêp pomiedzy przewodami [mm]
+        % bsr- sredni odstï¿½p pomiedzy przewodami [mm]
         bsr;
-        % miedŸ miêkka: ? = 56 m/?mm2
+        % miedï¿½ miï¿½kka: ? = 56 m/?mm2
         y;
         
         %Rezystancja kilometryczna Rk [Ohm/km]
         Rk
-        % Lk – indukcyjnoœæ jednostkowa (kilometryczna) linii [H/km]; 
+        % Lk ï¿½ indukcyjnoï¿½ï¿½ jednostkowa (kilometryczna) linii [H/km]; 
         Lk
-        % kilometryczna pojemnoœæ robocza linii [F/km];  
+        % kilometryczna pojemnoï¿½ï¿½ robocza linii [F/km];  
         Ck
         % Konduktancja Gk [S/km]
         Gk
-        % lambda- sta³a propagacji
+        % lambda- staï¿½a propagacji
         lambda
         %czesc rzeczywista z lambdy - [db/km]       
         damping
-        %t³umienie na koñcu linii w dB
+        %tï¿½umienie na koï¿½cu linii w dB
         endDamping
+        
+        %punkt 0
+        lower
+        %asymptota
+        higher
     end
    methods
-       function [obj] = CableClass(f, gk, L) 
-          
-           obj.r = sqrt(obj.s/pi); %liczymy promieñ z za³o¿onego przekroju
-           obj.bsr = 3*obj.r; %odleg³oœæ miêdzy ¿y³ami = 2r + izolacja
+       function obj = CableClass(f, gk, L, Rk);
+           
+           obj.r = sqrt(obj.s/pi); %liczymy promieï¿½ z zaï¿½oï¿½onego przekroju
+           obj.bsr = 3*obj.r; %odlegï¿½oï¿½ï¿½ miï¿½dzy ï¿½yï¿½ami = 2r + izolacja
            obj.y=56;
            
-           %przypisanie wartoœci z "konstruktora"
+           %przypisanie wartoï¿½ci z "konstruktora"
            obj.f=f;
            obj.length=L;
 %            https://sound.eti.pg.gda.pl/~landos/Laboratorium_SA/_LabSAcw_06.pdf
@@ -54,8 +59,11 @@ classdef CableClass
            obj.Lk=2*log(obj.bsr/obj.r+0.5)*10^-4;
            obj.Ck=10^-6*0.02415/log10(obj.bsr/obj.r);
            
-           %konduktancja=0 https://puss.pila.pl/uploads/dydaktyka/ip-lele-model-linii-elektr.pdf
+           %lower = sqrt(obj.Rk*obj.Gk)*8.685 %dolna granica tï¿½umienia w dB/km
+           %higher = (obj.Rk*obj.Ck + obj.Gk*obj.Lk)/(2*sqrt(obj.Lk*obj.Ck))*8.685 %asymptota, gï¿½rna granica tï¿½umienia
            
+           %konduktancja=0 https://puss.pila.pl/uploads/dydaktyka/ip-lele-model-linii-elektr.pdf
+           obj.Rk = Rk;
            obj.lambda=sqrt((obj.Rk+j*obj.w*obj.Lk)*(obj.Gk+j*obj.w*obj.Ck));
            obj.damping=real(obj.lambda)*8.685;
            obj.endDamping= obj.damping * obj.length
