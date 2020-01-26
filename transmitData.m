@@ -1,14 +1,14 @@
 % DATA FOR SIMULINK trasnmitFullSim
 
-SNR = 23 %SNR in dB. Used in the noise generator
+SNR = 20 %SNR in dB. Used in the noise generator
 
 Nbps=4; %N bits per symbol
-Ts = 1e-8 %"Sample time"
+Ts = 1e-8 %"Sample time" - odwrotność przepływności
 
 symbolsMulti=5500; % ???
 
 % amount of errors after which transsmison stops
-tgtMaxErr=100 000;
+tgtMaxErr=10000;
 
 %DATA FOR RLCG TRANSMISSION LINE
 
