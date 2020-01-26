@@ -8,7 +8,7 @@ Ts = 1e-8 %"Sample time"
 symbolsMulti=5500; % ???
 
 % amount of errors after which transsmison stops
-tgtMaxErr=10000;
+tgtMaxErr=100 000;
 
 %DATA FOR RLCG TRANSMISSION LINE
 
